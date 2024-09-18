@@ -83,7 +83,14 @@ resource "helm_release" "prometheus-stack" {
   chart = "kube-prometheus-stack"
   namespace = "prometheus-stack"
   create_namespace = true
-  timeout = 600
 
   values = [file("./prometheus-values.yaml")]
+}
+
+resource "helm_release" "metallb" {
+  name = "metallb"
+  repository = "https://metallb.github.io/metallb"
+  chart = "metallb"
+  namespace = "metallb"
+  create_namespace = true
 }
