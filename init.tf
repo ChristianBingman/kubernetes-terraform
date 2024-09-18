@@ -1,16 +1,16 @@
 terraform {
-required_providers {
-helm = {
-source = "hashicorp/helm"
-version = "2.15.0"
-}
-}
+  required_providers {
+    helm = {
+      source = "hashicorp/helm"
+      version = "2.15.0"
+    }
+  }
 }
 
 provider "helm" {
-kubernetes {
-config_path = "~/.kube/config"
-}
+  kubernetes {
+    config_path = "~/.kube/config"
+  }
 }
 
 resource "helm_release" "metrics_server" {
@@ -75,4 +75,15 @@ resource "helm_release" "cnpg" {
     name = "monitoring.grafanaDashboard.create"
     value = true
   }
+}
+
+resource "helm_release" "prometheus-stack" {
+  name = "prometheus-stack"
+  repository = "https://prometheus-community.github.io/helm-charts"
+  chart = "kube-prometheus-stack"
+  namespace = "prometheus-stack"
+  create_namespace = true
+  timeout = 600
+
+  values = [file("./prometheus-values.yaml")]
 }
