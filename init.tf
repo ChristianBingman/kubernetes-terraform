@@ -13,84 +13,26 @@ provider "helm" {
   }
 }
 
-resource "helm_release" "metrics_server" {
-  name       = "metrics-server"
-
-  repository = "https://kubernetes-sigs.github.io/metrics-server/"
-  chart      = "metrics-server"
-  namespace  = "metrics-server"
-  create_namespace = true
-
-  set {
-    name  = "args[0]"
-    value = "--kubelet-insecure-tls"
-  }
+module "metrics-server" {
+   source = "./modules/metrics_server"
 }
 
-resource "helm_release" "cert-manager" {
-  name = "cert-manager"
-  repository = "https://charts.jetstack.io"
-  chart = "cert-manager"
-  namespace = "cert-manager"
-  create_namespace = true
-  version = "v1.15.0"
-
-  set {
-    name = "crds.enabled"
-    value = true
-  }
-
-  set_list {
-    name = "extraArgs"
-    value = [
-      "--dns01-recursive-nameservers-only",
-      "--dns01-recursive-nameservers=8.8.8.8:53,1.1.1.1:53"
-    ]
-  }
-
-  set {
-    name = "prometheus.enabled"
-    value = true
-  }
-
-  set {
-    name = "prometheus.servicemonitor.enabled"
-    value = true
-  }
+module "cert-manager" {
+  source = "./modules/cert-manager"
 }
 
-resource "helm_release" "cnpg" {
-  name = "cnpg"
-  repository = "https://cloudnative-pg.github.io/charts"
-  chart = "cloudnative-pg"
-  namespace = "cnpg-system"
-  create_namespace = true
-
-  set {
-    name = "monitoring.podMonitorEnabled"
-    value = true
-  }
-
-  set {
-    name = "monitoring.grafanaDashboard.create"
-    value = true
-  }
+module "cnpg" {
+  source = "./modules/cnpg"
 }
 
-resource "helm_release" "prometheus-stack" {
-  name = "prometheus-stack"
-  repository = "https://prometheus-community.github.io/helm-charts"
-  chart = "kube-prometheus-stack"
-  namespace = "prometheus-stack"
-  create_namespace = true
-
-  values = [file("./prometheus-values.yaml")]
+module "prometheus-stack" {
+  source = "./modules/prometheus-stack"
+  admin_password = var.prometheus-stack_grafana_admin_password
+  smtp_host = var.smtp_host
+  smtp_user = var.smtp_user
+  smtp_pass = var.smtp_pass
 }
 
-resource "helm_release" "metallb" {
-  name = "metallb"
-  repository = "https://metallb.github.io/metallb"
-  chart = "metallb"
-  namespace = "metallb"
-  create_namespace = true
+module "metallb" {
+  source = "./modules/metallb"
 }
