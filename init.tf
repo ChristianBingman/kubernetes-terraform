@@ -4,6 +4,10 @@ terraform {
       source = "hashicorp/helm"
       version = "2.15.0"
     }
+    kubernetes = {
+      source = "hashicorp/kubernetes"
+      version = "2.32.0"
+    }
   }
 }
 
@@ -13,12 +17,17 @@ provider "helm" {
   }
 }
 
+provider "kubernetes" {
+  config_path = "~/.kube/config"
+}
+
 module "metrics-server" {
    source = "./modules/metrics_server"
 }
 
 module "cert-manager" {
   source = "./modules/cert-manager"
+  cloudflare_api_token = var.cert-manager_cloudflare_api_token
 }
 
 module "cnpg" {

@@ -11,3 +11,7 @@ variable "smtp_user" {
 variable "smtp_pass" {
   type = string
 }
+
+variable "cert-manager_cloudflare_api_token" {
+  type = string
+}
