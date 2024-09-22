@@ -32,33 +32,33 @@ resource "helm_release" "cert-manager" {
 
 resource "kubernetes_manifest" "le-christianbingman-com" {
   manifest = {
-  "apiVersion" = "cert-manager.io/v1"
-  "kind" = "ClusterIssuer"
-  "metadata" = {
-    "name" = "le-christianbingman-com"
-  }
-  "spec" = {
-    "acme" = {
-      "email" = "christianbingman@gmail.com"
-      "privateKeySecretRef" = {
-        "name" = "letsencrypt-prod"
-      }
-      "server" = "https://acme-v02.api.letsencrypt.org/directory"
-      "solvers" = [
-        {
-          "dns01" = {
-            "cloudflare" = {
-              "apiTokenSecretRef" = {
-                "key" = "api-token"
-                "name" = "cloudflare-api-token-secret"
+    "apiVersion" = "cert-manager.io/v1"
+    "kind" = "ClusterIssuer"
+    "metadata" = {
+      "name" = "le-christianbingman-com"
+    }
+    "spec" = {
+      "acme" = {
+        "email" = "christianbingman@gmail.com"
+        "privateKeySecretRef" = {
+          "name" = "letsencrypt-prod"
+        }
+        "server" = "https://acme-v02.api.letsencrypt.org/directory"
+        "solvers" = [
+          {
+            "dns01" = {
+              "cloudflare" = {
+                "apiTokenSecretRef" = {
+                  "key" = "api-token"
+                  "name" = "cloudflare-api-token-secret"
+                }
               }
             }
-          }
-        },
-      ]
+          },
+        ]
+      }
     }
   }
-}
 }
 
 resource "kubernetes_secret" "cloudflare-api-token-secret" {

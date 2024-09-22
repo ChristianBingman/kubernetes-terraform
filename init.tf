@@ -45,3 +45,7 @@ module "prometheus-stack" {
 module "metallb" {
   source = "./modules/metallb"
 }
+
+module "internal-proxy" {
+  source = "./modules/internal-proxy"
+}
