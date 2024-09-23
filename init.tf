@@ -30,9 +30,9 @@ module "cert-manager" {
   cloudflare_api_token = var.cert-manager_cloudflare_api_token
 }
 
-module "cnpg" {
-  source = "./modules/cnpg"
-}
+#module "cnpg" {
+#  source = "./modules/cnpg"
+#}
 
 module "prometheus-stack" {
   source = "./modules/prometheus-stack"

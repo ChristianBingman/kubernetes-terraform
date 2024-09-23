@@ -59,6 +59,21 @@ resource "helm_release" "prometheus-stack" {
                 - "buckybarnes.christianbingman.com:19999"
     grafana:
       assertNoLeakedSecrets: false
+      sidecar:
+        alerts:
+          enabled: true
+          searchNamespace: ALL
+      alerting:
+        contactpoints.yaml:
+          apiVersion: 1
+          contactPoints:
+            - orgId: 1
+              name: Default Mail
+              receivers:
+                - uid: default-mail
+                  type: email
+                  settings:
+                    addresses: alerts@christianbingman.com
       grafana.ini:
         smtp:
           enabled: true
