@@ -5,3 +5,30 @@ resource "helm_release" "metallb" {
   namespace = "metallb"
   create_namespace = true
 }
+
+resource "kubernetes_manifest" "default-advertisement" {
+  manifest = {
+    apiVersion = "metallb.io/v1beta1"
+    kind = "L2Advertisement"
+    metadata = {
+      name = "default-advertisement"
+      namespace = "metallb"
+    }
+  }
+}
+
+resource "kubernetes_manifest" "default-pool" {
+  manifest = {
+    apiVersion = "metallb.io/v1beta1"
+    kind = "IPAddressPool"
+    metadata = {
+      name = "default-pool"
+      namespace = "metallb"
+    }
+    spec = {
+      addresses = [
+        "10.2.0.25-10.2.0.35"
+      ]
+    }
+  }
+}

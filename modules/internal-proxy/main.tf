@@ -165,6 +165,7 @@ resource "kubernetes_service" "internal-proxy-http" {
     namespace = "internal-proxy"
     annotations= {
       "metallb.universe.tf/loadBalancerIPs" = "10.2.0.26"
+      "metallb.universe.tf/ip-allocated-from-pool" = "default-pool"
     }
     labels = {
       app = "proxy"
