@@ -34,6 +34,10 @@ module "cert-manager" {
 #  source = "./modules/cnpg"
 #}
 
+module "nfs-subdir-external-provisioner" {
+  source = "./modules/nfs-subdir-external-provisioner"
+}
+
 module "prometheus-stack" {
   source = "./modules/prometheus-stack"
   admin_password = var.prometheus-stack_grafana_admin_password

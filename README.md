@@ -7,7 +7,7 @@ Transition List:
 - [x] Kube Prometheus Stack
 - [x] Metallb
 - [x] Cert Manager
-- [ ] NFS Config
+- [x] NFS Config
 - [ ] Cloudflare Tunnel
 - [ ] Photoprism
 - [ ] Pushgateway
