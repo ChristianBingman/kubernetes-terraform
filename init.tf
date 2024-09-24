@@ -53,3 +53,8 @@ module "metallb" {
 module "internal-proxy" {
   source = "./modules/internal-proxy"
 }
+
+module "cloudflare-tunnel" {
+  source = "./modules/cloudflare-tunnel"
+  credentials = var.cloudflare-tunnel_credentials
+}

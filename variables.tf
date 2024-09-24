@@ -15,3 +15,7 @@ variable "smtp_pass" {
 variable "cert-manager_cloudflare_api_token" {
   type = string
 }
+
+variable "cloudflare-tunnel_credentials" {
+  type = string
+}
