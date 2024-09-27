@@ -58,3 +58,7 @@ module "cloudflare-tunnel" {
   source = "./modules/cloudflare-tunnel"
   credentials = var.cloudflare-tunnel_credentials
 }
+
+module "pushgateway" {
+  source = "./modules/pushgateway"
+}

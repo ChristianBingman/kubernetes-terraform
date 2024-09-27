@@ -8,9 +8,9 @@ Transition List:
 - [x] Metallb
 - [x] Cert Manager
 - [x] NFS Config
-- [ ] Cloudflare Tunnel
+- [x] Cloudflare Tunnel
+- [x] Pushgateway
 - [ ] Photoprism
-- [ ] Pushgateway
 - [ ] Registry
 - [ ] Grafana Dashboards
 - [ ] ELK
