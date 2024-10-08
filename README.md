@@ -10,8 +10,8 @@ Transition List:
 - [x] NFS Config
 - [x] Cloudflare Tunnel
 - [x] Pushgateway
+- [x] Registry
 - [ ] Photoprism
-- [ ] Registry
 - [ ] Grafana Dashboards
 - [ ] ELK
   - [ ] Helm Chart

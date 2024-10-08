@@ -62,3 +62,7 @@ module "cloudflare-tunnel" {
 module "pushgateway" {
   source = "./modules/pushgateway"
 }
+
+module "registry" {
+  source = "./modules/registry"
+}
