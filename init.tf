@@ -66,3 +66,7 @@ module "pushgateway" {
 module "registry" {
   source = "./modules/registry"
 }
+
+module "photoprism" {
+  source = "./modules/photoprism"
+}

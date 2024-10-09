@@ -11,7 +11,7 @@ Transition List:
 - [x] Cloudflare Tunnel
 - [x] Pushgateway
 - [x] Registry
-- [ ] Photoprism
+- [x] Photoprism
 - [ ] Grafana Dashboards
 - [ ] ELK
   - [ ] Helm Chart
