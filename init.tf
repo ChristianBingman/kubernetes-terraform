@@ -70,3 +70,11 @@ module "registry" {
 module "photoprism" {
   source = "./modules/photoprism"
 }
+
+module "eck-operator" {
+  source = "./modules/eck"
+}
+
+module "logstash" {
+  source = "./modules/logstash"
+}

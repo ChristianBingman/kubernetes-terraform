@@ -12,9 +12,9 @@ Transition List:
 - [x] Pushgateway
 - [x] Registry
 - [x] Photoprism
-- [ ] Grafana Dashboards
-- [ ] ELK
-  - [ ] Helm Chart
+- [-] ELK
+  - [x] Helm Chart
+  - [x] Logstash
   - [ ] Filebeat Config
-  - [ ] Logstash
+- [ ] Grafana Dashboards
 - [ ] Maintenance Site
