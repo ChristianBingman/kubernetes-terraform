@@ -78,3 +78,7 @@ module "eck-operator" {
 module "logstash" {
   source = "./modules/logstash"
 }
+
+module "filebeat" {
+  source = "./modules/filebeat"
+}

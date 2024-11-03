@@ -1,0 +1,71 @@
+apiVersion: beat.k8s.elastic.co/v1beta1
+kind: Beat
+metadata:
+  name: talos
+  namespace: kube-system
+spec:
+  type: filebeat
+  version: 7.15.1
+  config:
+    logging.level: warning
+    setup.ilm.rollover_alias: "kubernetes"
+    output.elasticsearch:
+      hosts:
+        - http://elasticsearch.christianbingman.com:80
+    filebeat.inputs:
+      - type: container
+        paths:
+          - /var/log/containers/*.log
+      - type: "udp"
+        host: "127.0.0.1:12345"
+        processors:
+          - decode_json_fields:
+              fields: ["message"]
+              target: ""
+          - timestamp:
+              field: "talos-time"
+              layouts:
+                - "2006-01-02T15:04:05.999999999Z07:00"
+          - drop_fields:
+              fields: ["message", "talos-time"]
+          - rename:
+              fields:
+                - from: "msg"
+                  to: "message"
+          - drop_event:
+              when:
+                contains:
+                  talos-level: "info"
+
+  daemonSet:
+    updateStrategy:
+      rollingUpdate:
+        maxUnavailable: 100%
+    podTemplate:
+      spec:
+        dnsPolicy: ClusterFirstWithHostNet
+        hostNetwork: true
+        securityContext:
+          runAsUser: 0
+        tolerations:
+          - key: "node-role.kubernetes.io/control-plane"
+            operator: "Exists"
+            effect: "NoSchedule"
+        containers:
+          - name: filebeat
+            ports:
+              - protocol: UDP
+                containerPort: 12345
+                hostPort: 12345
+            volumeMounts:
+              - name: varlogcontainers
+                mountPath: /var/log/containers
+              - name: varlogpods
+                mountPath: /var/log/pods
+        volumes:
+          - name: varlogcontainers
+            hostPath:
+              path: /var/log/containers
+          - name: varlogpods
+            hostPath:
+              path: /var/log/pods
