@@ -16,5 +16,4 @@ Transition List:
   - [x] Helm Chart
   - [x] Logstash
   - [x] Filebeat Config
-- [ ] Grafana Dashboards
-- [ ] Maintenance Site
+- [x] Maintenance Site

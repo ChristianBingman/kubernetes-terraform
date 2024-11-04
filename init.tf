@@ -82,3 +82,7 @@ module "logstash" {
 module "filebeat" {
   source = "./modules/filebeat"
 }
+
+module "website" {
+  source = "./modules/website"
+}
