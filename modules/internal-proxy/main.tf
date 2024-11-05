@@ -117,44 +117,6 @@ resource "kubernetes_config_map" "proxy-conf" {
           proxy_pass http://root-site-http.root-site/;
         }
       }
-      server {
-        listen 443 ssl;
-        server_name grafana.kubernetes-prod.christianbingman.com;
-        ssl_certificate /etc/nginx/ssl/grafana.kubernetes-prod.christianbingman.com/tls.crt;
-        ssl_certificate_key /etc/nginx/ssl/grafana.kubernetes-prod.christianbingman.com/tls.key;
-
-        location / {
-          proxy_set_header Host $host;
-          proxy_pass http://prometheus-stack-grafana.prometheus-stack;
-        }
-
-        # Proxy Grafana Live WebSocket connections.
-        location /api/live/ {
-          proxy_http_version 1.1;
-          proxy_set_header Upgrade $http_upgrade;
-          proxy_set_header Connection $connection_upgrade;
-          proxy_set_header Host $host;
-          proxy_pass http://prometheus-stack-grafana.prometheus-stack;
-        }
-      }
-      server {
-        listen 80;
-        server_name pushgateway.kubernetes-prod.christianbingman.com;
-
-        location / {
-          proxy_set_header Host $host;
-          proxy_pass http://pushgateway-http.prometheus-stack;
-        }
-      }
-      server {
-        listen 80 default_server;
-        server_name _;
-
-        location /healthz {
-          return 200;
-        }
-
-      }
     EOT
   }
 }
@@ -178,12 +140,6 @@ resource "kubernetes_service" "internal-proxy-http" {
       port = 80
       protocol = "TCP"
       target_port = 80
-    }
-    port {
-      name = "https"
-      port = 443
-      protocol = "TCP"
-      target_port = 443
     }
     selector = {
       app = "proxy"
@@ -214,27 +170,6 @@ resource "kubernetes_horizontal_pod_autoscaler_v2" "internal-proxy" {
     scale_target_ref {
       name = "internal-proxy"
       kind = "Deployment"
-    }
-  }
-}
-
-resource "kubernetes_manifest" "grafana-https" {
-  manifest = {
-    "apiVersion" = "cert-manager.io/v1"
-    "kind" = "Certificate"
-    "metadata" = {
-      "name" = "grafana-https"
-      "namespace" = "internal-proxy"
-    }
-    "spec" = {
-      "secretName" = "grafana-https"
-      "dnsNames" = [
-        "grafana.kubernetes-prod.christianbingman.com"
-      ]
-      "issuerRef" = {
-        "name" = "le-christianbingman-com"
-        "kind" = "ClusterIssuer"
-      }
     }
   }
 }

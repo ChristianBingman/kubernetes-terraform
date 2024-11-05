@@ -30,20 +30,8 @@ module "cert-manager" {
   cloudflare_api_token = var.cert-manager_cloudflare_api_token
 }
 
-#module "cnpg" {
-#  source = "./modules/cnpg"
-#}
-
 module "nfs-subdir-external-provisioner" {
   source = "./modules/nfs-subdir-external-provisioner"
-}
-
-module "prometheus-stack" {
-  source = "./modules/prometheus-stack"
-  admin_password = var.prometheus-stack_grafana_admin_password
-  smtp_host = var.smtp_host
-  smtp_user = var.smtp_user
-  smtp_pass = var.smtp_pass
 }
 
 module "metallb" {
@@ -59,10 +47,6 @@ module "cloudflare-tunnel" {
   credentials = var.cloudflare-tunnel_credentials
 }
 
-module "pushgateway" {
-  source = "./modules/pushgateway"
-}
-
 module "registry" {
   source = "./modules/registry"
 }
@@ -71,22 +55,6 @@ module "photoprism" {
   source = "./modules/photoprism"
 }
 
-module "eck-operator" {
-  source = "./modules/eck"
-}
-
-module "logstash" {
-  source = "./modules/logstash"
-}
-
-module "filebeat" {
-  source = "./modules/filebeat"
-}
-
 module "website" {
   source = "./modules/website"
-}
-
-module "grafana-alerts" {
-  source = "./modules/grafana-alerts"
 }
