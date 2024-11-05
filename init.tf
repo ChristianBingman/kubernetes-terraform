@@ -86,3 +86,7 @@ module "filebeat" {
 module "website" {
   source = "./modules/website"
 }
+
+module "grafana-alerts" {
+  source = "./modules/grafana-alerts"
+}
